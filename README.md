@@ -19,7 +19,9 @@ This Turborepo includes the following packages/apps:
 - `user`: a [Next.js](https://nextjs.org/) app
 - `merchant`: another [Next.js](https://nextjs.org/) app
 - `bank_webhook_handler`: a [Nodejs.org](https://nodejs.org/en) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@repo/db`: a Prisma Db shared by both `user`, `merchant` & `bank_webhook_handler` applications
+- `@repo/ui`: a stub React component library shared by both `user` and `merchant` applications
+- `@repo/store`: a Store component library shared by both `user` and `merchant` applications using recoil
 - `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
@@ -39,7 +41,7 @@ To build all apps and packages, run the following command:
 
 ```
 cd my-turborepo
-pnpm build
+npm run build
 ```
 
 ### Develop
@@ -48,7 +50,7 @@ To develop all apps and packages, run the following command:
 
 ```
 cd my-turborepo
-pnpm dev
+npm run dev
 ```
 
 ### Remote Caching
