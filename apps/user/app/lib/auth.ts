@@ -33,7 +33,7 @@ export const authOptions = {
         if (existingUser) {
           const passwordValidation = await bcrypt.compare(
             credentials.password,
-            existingUser.password
+            existingUser.password,
           );
           if (passwordValidation) {
             return {

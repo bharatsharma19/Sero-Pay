@@ -23,7 +23,7 @@ export const authOptions = {
       };
     }) {
       console.log("Hi, Merchant Sign In");
-      
+
       if (!user || !user.email) {
         return false;
       }

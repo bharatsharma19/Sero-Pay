@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 
 export async function createOnRampTransaction(
   provider: string,
-  amount: number
+  amount: number,
 ) {
   // Ideally the token should come from the banking provider (hdfc/axis)
   const session = await getServerSession(authOptions);
