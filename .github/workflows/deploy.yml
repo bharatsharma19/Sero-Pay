@@ -3,7 +3,7 @@ name: Build and Deploy to Google Compute Engine VM
 on:
   push:
     branches:
-      - main # Trigger on pushes to main
+      - main
 
 jobs:
   build-and-push:
@@ -52,5 +52,5 @@ jobs:
               sudo docker pull bharatsharma19/sero-pay:latest && \
               sudo docker stop sero-pay || true && \
               sudo docker rm sero-pay || true && \
-              sudo docker run -d --name sero-pay -p 3005:3000 bharatsharma19/sero-pay:latest
+              sudo docker run -e DATABASE_URL=${{ secrets.DATABASE_URL }} -d --name sero-pay -p 3005:3000 --restart unless-stopped bharatsharma19/sero-pay:latest
             "

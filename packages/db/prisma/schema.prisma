@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:mysecretpassword@localhost:5432/postgres"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -69,7 +69,7 @@ enum AuthType {
 }
 
 enum OnRampStatus {
-  Success
+  Successa
   Failure
   Processing
 }
