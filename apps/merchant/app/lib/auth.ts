@@ -1,14 +1,13 @@
+import GoogleProvider from "next-auth/providers/google";
 import db from "@repo/db/client";
-import Google from "next-auth/providers/google";
 
 export const authOptions = {
   providers: [
-    Google({
+    GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || "secret",
   callbacks: {
     async signIn({
       user,
@@ -22,8 +21,7 @@ export const authOptions = {
         provider: "google" | "github";
       };
     }) {
-      console.log("Hi, Merchant Sign In");
-
+      console.log("hi signin");
       if (!user || !user.email) {
         return false;
       }
@@ -49,4 +47,5 @@ export const authOptions = {
       return true;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET || "secret",
 };
