@@ -1,7 +1,3 @@
-
-
-
-
 import { authOptions } from "./lib/auth";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
