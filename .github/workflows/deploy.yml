@@ -1,9 +1,9 @@
-name: Build and Deploy to Docker Hub
+name: Build and Deploy to Google Compute Engine VM
 
 on:
   push:
     branches:
-      - main
+      - main # Trigger on pushes to main
 
 jobs:
   build-and-push:
@@ -11,6 +11,9 @@ jobs:
     steps:
       - name: Check Out Repo
         uses: actions/checkout@v2
+
+      - name: Prepare Dockerfile
+        run: cp ./docker/Dockerfile.user ./Dockerfile
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
@@ -22,9 +25,32 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./docker/Dockerfile.user
+          file: ./Dockerfile
           push: true
           tags: bharatsharma19/sero-pay:latest
 
       - name: Verify Pushed Image
         run: docker pull bharatsharma19/sero-pay:latest
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          install_components: gcloud
+
+      - name: Deploy to Google Compute Engine VM
+        run: |
+          gcloud compute ssh ${{ secrets.GCE_INSTANCE_NAME }} \
+            --project ${{ secrets.GCP_PROJECT_ID }} \
+            --zone ${{ secrets.GCE_ZONE }} \
+            --command="
+              sudo docker pull bharatsharma19/sero-pay:latest && \
+              sudo docker stop sero-pay || true && \
+              sudo docker rm sero-pay || true && \
+              sudo docker run -d --name sero-pay -p 3005:3000 bharatsharma19/sero-pay:latest
+            "
